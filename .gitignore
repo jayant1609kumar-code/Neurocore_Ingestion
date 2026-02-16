@@ -1,0 +1,19 @@
+# Virtual Environment (Very large, others should create their own)
+venv/
+env/
+ENV/
+
+# Python cache (Temporary files created by Python)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database (Your local testing data)
+*.db
+*.sqlite3
+
+# Environment variables (Sensitive keys/secrets)
+.env
+
+# VS Code specific files
+.vscode/
