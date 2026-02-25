@@ -1,6 +1,7 @@
-from sqlalchemy import Column, String, DateTime, Integer
-from sqlalchemy.sql import func
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, func
+from datetime import datetime
 from .database import Base
+
 class Alert(Base):
     __tablename__ = "alerts"
 
@@ -11,5 +12,15 @@ class Alert(Base):
     message = Column(String)
     event_id = Column(String)
     trigger_id = Column(String)
-    # Automatically saves the time in UTC as required
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+class Job(Base):
+    __tablename__ = "jobs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    alert_id = Column(Integer, ForeignKey("alerts.id")) 
+    host = Column(String)
+    action = Column(String) 
+    payload = Column(String) 
+    status = Column(String, default="pending") 
+    created_at = Column(DateTime, default=datetime.utcnow)
