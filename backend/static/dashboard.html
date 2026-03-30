@@ -10,10 +10,9 @@
         th, td { padding:12px; border: 1px solid #444; text-align: left; }
         th { background:#333; color: #00ff88; }
         
-        /* Severity Colors */
-        .severity-critical { background-color: #721c24 !important; color: #f8d7da; } /* Dark Red */
-        .severity-high { background-color: #856404 !important; color: #fff3cd; }     /* Dark Orange/Gold */
-        .severity-warning { background-color: #383d41 !important; color: #e2e3e5; }  /* Greyish */
+        .severity-critical { background-color: #721c24 !important; color: #f8d7da; }
+        .severity-high { background-color: #856404 !important; color: #fff3cd; }
+        .severity-warning { background-color: #383d41 !important; color: #e2e3e5; }
 
         tr:hover { filter: brightness(1.2); cursor: default; }
         h2 { color: #00ff88; border-bottom: 2px solid #00ff88; padding-bottom: 10px; }
@@ -42,20 +41,20 @@
                 tbody.innerHTML = ''; 
                 
                 data.forEach(alert => {
-                    // Logic to determine the color class
                     let severityClass = '';
-                    const sev = alert.severity.toLowerCase();
+                    const severityText = alert.severity || 'Info';
+                    const sev = severityText.toLowerCase();
                     
-                    if (sev === 'critical') severityClass = 'severity-critical';
-                    else if (sev === 'high') severityClass = 'severity-high';
-                    else if (sev === 'warning') severityClass = 'severity-warning';
+                    if (sev.includes('crit')) severityClass = 'severity-critical';
+                    else if (sev.includes('high')) severityClass = 'severity-high';
+                    else if (sev.includes('warn')) severityClass = 'severity-warning';
 
                     const row = `
                         <tr class="${severityClass}">
-                            <td>${alert.host}</td>
-                            <td><strong>${alert.severity}</strong></td>
-                            <td>${alert.subject}</td>
-                            <td>${new Date(alert.created_at).toLocaleString()}</td>
+                            <td>${alert.host || 'Unknown'}</td>
+                            <td><strong>${severityText}</strong></td>
+                            <td>${alert.subject || 'No Subject'}</td>
+                            <td>${alert.created_at ? new Date(alert.created_at).toLocaleString() : 'N/A'}</td>
                         </tr>
                     `;
                     tbody.innerHTML += row;
