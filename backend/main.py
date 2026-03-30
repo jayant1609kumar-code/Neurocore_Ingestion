@@ -1,10 +1,11 @@
 from fastapi import FastAPI, HTTPException, Header, Depends
 from sqlalchemy.orm import Session
 from fastapi.responses import HTMLResponse
-from . import models, database
 import json
-from .sop_engine import evaluate_alert
-from .models import Job
+import models
+import database
+from sop_engine import evaluate_alert
+from models import Job
 
 app = FastAPI()
 
@@ -57,4 +58,7 @@ def fetch_alerts(db: Session = Depends(get_db)):
 
 @app.get("/", response_class=HTMLResponse)
 def dashboard():
-    return open("backend/static/dashboard.html").read()
+    try:
+        return open("static/dashboard.html").read()
+    except FileNotFoundError:
+        return "<h1>Dashboard file not found. Check the 'static' folder.</h1>"

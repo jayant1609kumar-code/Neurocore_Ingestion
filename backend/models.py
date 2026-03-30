@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, func
 from datetime import datetime
-from .database import Base
+from database import Base
 
 class Alert(Base):
     __tablename__ = "alerts"
